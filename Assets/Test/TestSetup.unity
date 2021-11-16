@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 6f775e6ad01a0444082abebca2299b87, type: 3}
   m_Sun: {fileID: 2080978785}
-  m_IndirectSpecularColor: {r: 0.039965477, g: 0.2009832, b: 0.2623816, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2444,6 +2444,8 @@ MonoBehaviour:
   onceDonee: 0
   mHowManyCardSetsAreActive: 0
   _cardsThatCanBeReplacedByJoker: []
+  count: 0
+  chk: []
 --- !u!4 &468857716 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 394daaa2be98053419595910a546be1c, type: 3}
@@ -7705,13 +7707,10 @@ MonoBehaviour:
   - {fileID: 262260865}
   - {fileID: 352214583}
   mScriptedCards:
-  - {fileID: 11400000, guid: bef5d9154e82bb54da248be5deb27a0c, type: 2}
-  - {fileID: 11400000, guid: bef5d9154e82bb54da248be5deb27a0c, type: 2}
-  - {fileID: 11400000, guid: 59c4025fd9e49e74988aea7b0e8417db, type: 2}
-  - {fileID: 11400000, guid: 59c4025fd9e49e74988aea7b0e8417db, type: 2}
   - {fileID: 11400000, guid: 0952565636ceb1c4889cc007d2310ddd, type: 2}
-  - {fileID: 11400000, guid: 669db0c61da4b9c42b4d0007a2a6d964, type: 2}
-  - {fileID: 11400000, guid: 669db0c61da4b9c42b4d0007a2a6d964, type: 2}
+  - {fileID: 11400000, guid: 59c4025fd9e49e74988aea7b0e8417db, type: 2}
+  - {fileID: 11400000, guid: bef5d9154e82bb54da248be5deb27a0c, type: 2}
+  - {fileID: 11400000, guid: bef5d9154e82bb54da248be5deb27a0c, type: 2}
   _CardList: []
   mCardListGameObject: []
   DrawButton: {fileID: 1270463490}
@@ -7725,6 +7724,8 @@ MonoBehaviour:
   onceDonee: 0
   mHowManyCardSetsAreActive: 0
   _cardsThatCanBeReplacedByJoker: []
+  count: 0
+  chk: []
 --- !u!4 &1527080002
 Transform:
   m_ObjectHideFlags: 0
@@ -8420,10 +8421,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CameraParent: {fileID: 343195022}
-  mTargetToRotateAround: {fileID: 1315715443}
   mHorizontalPanSpeed: 0
   _CameraLeftBound: 0
   _CameraRightBound: 0
+  _CameraUpBound: 0
+  _CameraDownBound: 0
   mZoomSpeed: 15
   mCameraNearBound: -40
   mCameraFarBound: -90

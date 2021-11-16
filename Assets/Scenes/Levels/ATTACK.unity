@@ -11956,7 +11956,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622744561}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caddc1ea32e51940945601f52a4d080, type: 3}
   m_Name: 
@@ -11965,6 +11965,10 @@ MonoBehaviour:
   mTargetToRotateAround: {fileID: 0}
   _RotationLimit: 30
   _CameraFreeRoam: 1
+  _CameraParent: {fileID: 343195022}
+  mHorizontalPanSpeed: 200
+  _CameraLeftBound: -100
+  _CameraRightBound: 100
 --- !u!1001 &1631610372
 PrefabInstance:
   m_ObjectHideFlags: 0

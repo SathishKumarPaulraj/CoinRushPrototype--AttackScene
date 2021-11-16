@@ -120,7 +120,7 @@ public class CameraController : MonoBehaviour
             }
             HorizontalPanning();
             //HorizontalPanningWithRotation();
-           // VerticalZooming();
+            VerticalZooming();
         }
     }
 

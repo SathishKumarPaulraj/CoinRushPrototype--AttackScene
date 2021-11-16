@@ -302,8 +302,6 @@ public class AttackManager : MonoBehaviour
          yield return new WaitForSeconds(2);
          _ScoreTextThree.transform.parent.gameObject.SetActive(true);
          Debug.Log("I am Here");
-
-
     } 
 
     public void CannonActivation()

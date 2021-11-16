@@ -43,6 +43,8 @@ public class TestScript : MonoBehaviour
 
     public int mHowManyCardSetsAreActive;
     public List<Cards> _cardsThatCanBeReplacedByJoker;
+    public int count = 0;
+    public List<Cards> chk = new List<Cards>();
 
 
     private void Start()
@@ -291,22 +293,64 @@ public class TestScript : MonoBehaviour
     #region "Add , Replace , Check And Open New Scene Based On Cards"
     private void AddNewCard(Cards inNewCard, GameObject inCard)
     {
-        mCardListGameObject.Add(inCard);
+        // 1 pair + joker card entry
+        if (count == 1 && inNewCard._cardType == CardType.JOKER)
+        {
+            inNewCard._cardType = chk[0]._cardType;
+            chk.Clear();
+            count = 0;
+            Debug.Log(inNewCard._cardType + "Inside code check");
+
+        }
+        Debug.Log(inNewCard._cardType + "Before For loop");
+
         for (int i = 0; i < _CardList.Count; i++)
         {
-            if (_CardList[i]._cardType == inNewCard._cardType && _CardList[i]._cardType != CardType.JOKER)
+            if (_CardList[i]._cardType == inNewCard._cardType)
             {
                 _CardList.Insert(i, inNewCard);
+                if (inNewCard._cardID != 4)
+                    count = 1;
+                chk.Add(inNewCard);
+                Debug.Log("two cards matched" + count);
                 return;
             }
         }
-        if (inNewCard._cardType == CardType.JOKER)
-        {
-            _jokerList.Add(inNewCard);
-        }
-        _CardList.Add(inNewCard);
-    }
 
+        _CardList.Add(inNewCard);
+        /*  mCardListGameObject.Add(inCard);
+          for (int i = 0; i < _CardList.Count; i++)
+          {
+              if (_CardList[i]._cardType == inNewCard._cardType && _CardList[i]._cardType != CardType.JOKER)
+              {
+                  _CardList.Insert(i, inNewCard);
+                  return;
+              }
+          }
+          if (inNewCard._cardType == CardType.JOKER)
+          {
+              _jokerList.Add(inNewCard);
+          }
+          _CardList.Add(inNewCard);*/
+    }
+    /*  private void AddNewCard(Cards inNewCard, GameObject inCard)
+      {
+          mCardListGameObject.Add(inCard);
+          for (int i = 0; i < _CardList.Count; i++)
+          {
+              if (_CardList[i]._cardType == inNewCard._cardType && _CardList[i]._cardType != CardType.JOKER)
+              {
+                  _CardList.Insert(i, inNewCard);
+                  return;
+              }
+          }
+          if (inNewCard._cardType == CardType.JOKER)
+          {
+              _jokerList.Add(inNewCard);
+          }
+          _CardList.Add(inNewCard);
+      }
+    */
     private void ReplacementOfCards()
     {
         int medianIndex = _playerHandPoints.Count / 2;
