@@ -109,12 +109,14 @@ public class CannonShotController : MonoBehaviour
 
     public void ShootBullet()
     {
-        _bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
-        _bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
+        _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
+        _bullet.GetComponent<Missile>().target = _TargetTransform;
+        // _bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
+        //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
-        Camera.main.transform.parent = _bullet.transform;
-        Invoke("DetachCamera", .8f);
-        Invoke("DestroyBullet", 1f);
+      // Camera.main.transform.parent = _bullet.transform;
+       // Invoke("DetachCamera", .8f);
+        //Invoke("DestroyBullet", 1f);
     }
 
     public void DetachCamera()
