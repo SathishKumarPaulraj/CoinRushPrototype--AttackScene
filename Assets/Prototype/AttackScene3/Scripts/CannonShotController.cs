@@ -9,8 +9,9 @@ public class CannonShotController : MonoBehaviour
     public Transform _shotPoint;
     public Transform _TargetTransform;
     public AttackManager _AttackManager;
-    public Quaternion CameraAttackRotation;
-    public float CameraAttackPositionZ = -665f;
+    //  public Quaternion CameraAttackRotation;
+    // public float CameraAttackPositionZ = -665f;
+    public Vector3 CannonAttackPosition;
 
 
     // Start is called before the first frame update
@@ -90,8 +91,10 @@ public class CannonShotController : MonoBehaviour
     public void AssignPos(Transform tran)
     {
         _TargetTransform = tran;
-        this.transform.parent = Camera.main.transform.parent;
-        this.transform.localPosition = new Vector3(0, -30f, 60f);
+        //this.transform.parent = Camera.main.transform.parent;
+        //this.transform.localPosition = new Vector3(0, -35f, 80f);
+        this.transform.position = new Vector3(_TargetTransform.position.x, CannonAttackPosition.y, CannonAttackPosition.z);
+        this.gameObject.SetActive(true);
         // this.transform.localRotation = Camera.main.transform.rotation;
         //Camera.main.transform.parent.position = new Vector3(tran.localPosition.x, tran.localPosition.y, tran.localPosition.z) + new Vector3(-30f, 197.1f, -483.8f);
         //Camera.main.transform.parent.rotation = CameraAttackRotation;
@@ -103,7 +106,7 @@ public class CannonShotController : MonoBehaviour
         //this.gameObject.transform.rotation = CameraAttackRotation;
         // this.gameObject.transform.position = new Vector3(tran.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         //this.gameObject.transform.LookAt(tran);
-        //Destroy(_bullet, .8f);
+      //  Destroy(_bullet, .8f);
         Invoke("ShootBullet", 2f);
     }
 
@@ -114,7 +117,8 @@ public class CannonShotController : MonoBehaviour
         //_bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
         //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
-        Camera.main.transform.parent = _bullet.transform;
+      //  Camera.main.transform.parent = _bullet.transform;
+       // Camera.main.transform.parent.LookAt(_bullet.transform);
         Invoke("DetachCamera", 2f);
        // Invoke("DestroyBullet", 3f);
     }

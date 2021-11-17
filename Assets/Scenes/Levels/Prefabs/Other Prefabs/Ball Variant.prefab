@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  hight: 210
+  hight: 190
   gravity: -150
 --- !u!1 &4867151529964251834
 GameObject:

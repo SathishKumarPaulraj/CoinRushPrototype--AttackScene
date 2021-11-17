@@ -272,7 +272,7 @@ public class AttackManager : MonoBehaviour
         //  Camera.main.transform.parent.position = Vector3.Lerp( (this.transform.position),(new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)),1f);
         // Camera.main.transform.parent.position = new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z);// + new Vector3(-30f, 0f, 0f);
         Camera.main.transform.parent.rotation = CameraAttackRotation;
-        Invoke("CannonActivation", 2f);
+        Invoke("CannonActivation", 0f);
         // _Cannon.SetActive(true);
       //  _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
         //_Cannon.SetActive(false);
@@ -308,7 +308,7 @@ public class AttackManager : MonoBehaviour
 
     public void CannonActivation()
     {
-        _Cannon.SetActive(true);
+       // _Cannon.SetActive(true);
         _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
     }
 
