@@ -8,6 +8,7 @@ public class Test : MonoBehaviour
     void Start()
     {
         Debug.Log("Test");
+        Debug.Log("Test Scenerio commit");
     }
 
     // Update is called once per frame
