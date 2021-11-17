@@ -16,7 +16,7 @@ public class CannonShotController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+  
     }
 
     // Update is called once per frame
@@ -111,12 +111,12 @@ public class CannonShotController : MonoBehaviour
     {
         _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
         _bullet.GetComponent<Missile>().target = _TargetTransform;
-        // _bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
+        //_bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
         //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
-      // Camera.main.transform.parent = _bullet.transform;
-       // Invoke("DetachCamera", .8f);
-        //Invoke("DestroyBullet", 1f);
+        Camera.main.transform.parent = _bullet.transform;
+        Invoke("DetachCamera", 2f);
+        Invoke("DestroyBullet", 3f);
     }
 
     public void DetachCamera()
