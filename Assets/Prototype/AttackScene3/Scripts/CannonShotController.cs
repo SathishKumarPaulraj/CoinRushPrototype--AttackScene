@@ -116,7 +116,7 @@ public class CannonShotController : MonoBehaviour
         Debug.Log("Cannon fired");
         Camera.main.transform.parent = _bullet.transform;
         Invoke("DetachCamera", 2f);
-        Invoke("DestroyBullet", 3f);
+       // Invoke("DestroyBullet", 3f);
     }
 
     public void DetachCamera()

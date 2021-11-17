@@ -29,6 +29,7 @@ public class AttackManager : MonoBehaviour
 
     private Camera cam;
     private int cachedTargetPoint = -1;
+    private float transitionDuration = 2.5f;
 
     private void Awake()
     {
@@ -263,12 +264,13 @@ public class AttackManager : MonoBehaviour
         {
             _multiplierGameObject.SetActive(false);
         }
-        Camera cam = Camera.main;
+       // Camera cam = Camera.main;
         //  Camera.main.transform.parent.position = new Vector3(_TargetTransform.localPosition.x, _TargetTransform.localPosition.y, _TargetTransform.localPosition.z) + new Vector3(-30f, 197.1f, -483.8f);
-        GameObject can = Instantiate(_Cannon, vect, Quaternion.identity);
-        Debug.Log("Cannon Instatiated");
-        Camera.main.transform.parent.position = Vector3.Lerp( (this.transform.position),(new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)),1f);
-       // Camera.main.transform.parent.position = new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z);// + new Vector3(-30f, 0f, 0f);
+        //GameObject can = Instantiate(_Cannon, vect, Quaternion.identity);
+        Debug.Log("before coroutine");
+        StartCoroutine(Transition());
+        //  Camera.main.transform.parent.position = Vector3.Lerp( (this.transform.position),(new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)),1f);
+        // Camera.main.transform.parent.position = new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z);// + new Vector3(-30f, 0f, 0f);
         Camera.main.transform.parent.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 2f);
         // _Cannon.SetActive(true);
@@ -308,5 +310,23 @@ public class AttackManager : MonoBehaviour
     {
         _Cannon.SetActive(true);
         _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
+    }
+
+    IEnumerator Transition()
+    {
+        float t = 0.0f;
+        Vector3 startingPos = Camera.main.transform.parent.position;
+        Debug.Log(startingPos);
+        Debug.Log((_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z));
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime * (Time.timeScale / transitionDuration);
+            Debug.Log("Inside Coroutine");
+
+            Camera.main.transform.parent.position = Vector3.Lerp(startingPos, (new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)), t*3);
+            yield return 0;
+        }
+
+
     }
 }
