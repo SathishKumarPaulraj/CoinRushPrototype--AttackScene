@@ -117,15 +117,27 @@ public class CannonShotController : MonoBehaviour
         //_bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
         //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
-      //  Camera.main.transform.parent = _bullet.transform;
-       // Camera.main.transform.parent.LookAt(_bullet.transform);
-        //Invoke("DetachCamera", 2f);
+       Camera.main.transform.parent = _bullet.transform;
+        Invoke("DetachCamera",1.5f);
        Invoke("DestroyBullet", 3f);
     }
 
     public void DetachCamera()
     {
-        Camera.main.transform.parent = null;
+       
+      /* float distance = _TargetTransform.position.z + Camera.main.transform.parent.position.z;
+        Debug.Log(_TargetTransform.position.z +" a");
+        Debug.Log(Camera.main.transform.parent.position.z + "b");
+        Debug.Log(distance + "disatnce");
+        float cameraDisatnce = Camera.main.transform.position.z;
+        Debug.Log(Camera.main.transform.position.z + "c");
+      //  Debug.Log(_TargetTransform.position.y);
+      // // Debug.Log(Camera.main.transform.position.y);
+      //  Debug.Log(distance + "Disatance"); */
+     // if (cameraDisatnce >= distance/2)
+        {
+            Camera.main.transform.parent = null;
+        }
     }
 
     public void DestroyBullet()
