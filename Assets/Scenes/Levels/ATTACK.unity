@@ -22738,7 +22738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 486691023478576439, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: CannonAttackPosition.z
-      value: -610
+      value: -623
       objectReference: {fileID: 0}
     - target: {fileID: 4830786118788227611, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_Name
@@ -22762,11 +22762,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.953717
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.30070576
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_LocalRotation.y
@@ -22778,7 +22778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -22803,12 +22803,12 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486691023478576438}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 9acceae7ab282c042a8f6624d84b5e83, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

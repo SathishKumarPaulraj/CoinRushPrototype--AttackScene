@@ -107,7 +107,7 @@ public class CannonShotController : MonoBehaviour
         // this.gameObject.transform.position = new Vector3(tran.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         //this.gameObject.transform.LookAt(tran);
       //  Destroy(_bullet, .8f);
-        Invoke("ShootBullet", 2f);
+        Invoke("ShootBullet", 2.5f);
     }
 
     public void ShootBullet()
@@ -119,8 +119,8 @@ public class CannonShotController : MonoBehaviour
         Debug.Log("Cannon fired");
       //  Camera.main.transform.parent = _bullet.transform;
        // Camera.main.transform.parent.LookAt(_bullet.transform);
-        Invoke("DetachCamera", 2f);
-       // Invoke("DestroyBullet", 3f);
+        //Invoke("DetachCamera", 2f);
+       Invoke("DestroyBullet", 3f);
     }
 
     public void DetachCamera()
