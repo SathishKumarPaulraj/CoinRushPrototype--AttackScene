@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public List<int> _BuildingCost;
     public List<bool> _BuildingShield;
     public List<Vector3> _TargetMarkPost;
+    public List<Quaternion> _TargetMarkRotation;
 
     public int _maxEnergy = 50;
     private bool mIsFull = true;

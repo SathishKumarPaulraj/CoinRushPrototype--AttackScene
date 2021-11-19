@@ -12,6 +12,7 @@ public class CannonShotController : MonoBehaviour
     //  public Quaternion CameraAttackRotation;
     // public float CameraAttackPositionZ = -665f;
     public Vector3 CannonAttackPosition;
+    
 
 
     // Start is called before the first frame update
@@ -95,18 +96,6 @@ public class CannonShotController : MonoBehaviour
         //this.transform.localPosition = new Vector3(0, -35f, 80f);
         this.transform.position = new Vector3(_TargetTransform.position.x, CannonAttackPosition.y, CannonAttackPosition.z);
         this.gameObject.SetActive(true);
-        // this.transform.localRotation = Camera.main.transform.rotation;
-        //Camera.main.transform.parent.position = new Vector3(tran.localPosition.x, tran.localPosition.y, tran.localPosition.z) + new Vector3(-30f, 197.1f, -483.8f);
-        //Camera.main.transform.parent.rotation = CameraAttackRotation;
-        //this.gameObject.transform.position = new Vector3(tran.localPosition.x, tran.localPosition.y, tran.localPosition.z) + new Vector3(-30f, 130f, -422.8f);
-        //this.gameObject.transform.rotation = CameraAttackRotation;
-        //Camera.main.transform.parent.position = new Vector3(tran.localPosition.x, tran.localPosition.y, tran.localPosition.z) + new Vector3(-30f,197.1f,-483.8f);
-        //Camera.main.transform.parent.rotation = CameraAttackRotation;
-        //this.gameObject.transform.position = new Vector3(tran.localPosition.x, tran.localPosition.y, tran.localPosition.z) + new Vector3(-30f, 130f, -422.8f);
-        //this.gameObject.transform.rotation = CameraAttackRotation;
-        // this.gameObject.transform.position = new Vector3(tran.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        //this.gameObject.transform.LookAt(tran);
-      //  Destroy(_bullet, .8f);
         Invoke("ShootBullet", 2.5f);
     }
 
@@ -117,11 +106,15 @@ public class CannonShotController : MonoBehaviour
         //_bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
         //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
-       Camera.main.transform.parent = _bullet.transform;
+       Camera.main.transform.parent.parent = _bullet.transform;
         Invoke("DetachCamera",1.5f);
-       Invoke("DestroyBullet", 3f);
+       Invoke("DestroyBullet", 2.0f);
     }
+  
 
+    /// <summary>
+    /// To detach the camera before the ball hits the building 
+    /// </summary>
     public void DetachCamera()
     {
        
@@ -140,22 +133,32 @@ public class CannonShotController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 1. To destroy the ball when it hits the building 
+    /// 2. Activate the Particle effects based on Shield(T/F)
+    /// </summary>
     public void DestroyBullet()
     {
-        Destroy(_bullet, 1f);
+        Destroy(_bullet, 0f);
       
         if (_AttackManager._Shield == true)
         {
             Debug.Log("Shield Activated");
             Debug.Log(_bulletPrefab.transform.GetChild(0).name);
+         //   GameObject ParticleObj = GameObject.Find("Ball Variant/BuildingDestroyParticle");
+           // Debug.Log(ParticleObj.transform.);
             _bullet.transform.GetChild(0).gameObject.SetActive(true);
+            _bullet.transform.GetChild(1).gameObject.SetActive(true);
             _bullet.transform.GetChild(0).parent = null;
         }
         else
         {
             Debug.Log("Shield Disabled");
             Debug.Log(_bulletPrefab.transform.GetChild(1).name);
+            _bullet.transform.GetChild(0).gameObject.SetActive(true);
             _bullet.transform.GetChild(1).gameObject.SetActive(true);
+            _bullet.transform.GetChild(2).gameObject.SetActive(true);
+            _bullet.transform.GetChild(3).gameObject.SetActive(true);
             _bullet.transform.GetChild(1).parent = null;
         }
     }

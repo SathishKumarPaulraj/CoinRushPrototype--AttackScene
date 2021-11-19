@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class AttackManager : MonoBehaviour
 {
     [SerializeField] private GameManager mGameManager;
-   // public List<GameObject> _TargetPoints = new List<GameObject>();
+    // public List<GameObject> _TargetPoints = new List<GameObject>();
     public List<GameObject> _spawnedTargetPoints = new List<GameObject>();
     public GameObject _TargetPrefab;
     public GameObject _multiplierPrefab;
@@ -25,7 +25,6 @@ public class AttackManager : MonoBehaviour
     public bool _Shield = false;
     public Quaternion CameraAttackRotation;
     public Vector3 CameraAttackPosition;
-    public Vector3 vect = new Vector3(0f, 220f, -605f);
 
     private Camera cam;
     private int cachedTargetPoint = -1;
@@ -35,30 +34,28 @@ public class AttackManager : MonoBehaviour
     {
         mGameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        for (int i = 0; i< mGameManager._BuildingDetails.Count ; i++ )
+        for (int i = 0; i < mGameManager._BuildingDetails.Count; i++)
         {
             Instantiate(mGameManager._BuildingDetails[i], mGameManager._PositionDetails[i], mGameManager._RotationList[i]);
-        }    
+        }
 
-
-        
     }
 
     private void Start()
     {
         cam = Camera.main;
-      
+
         TargetInstantiation();
         MultiplierInstantiation();
         InvokeRepeating("DoMultiplierSwitching", 0f, _MultiplierSwitchTime);
 
-      
+
     }
 
     // Update is called once per frame
     void Update()
-    {   
-           
+    {
+
     }
 
     /// <summary>
@@ -74,7 +71,7 @@ public class AttackManager : MonoBehaviour
         }
 
         if (cachedTargetPoint != -1)
-            _spawnedTargetPoints[cachedTargetPoint].SetActive(true); 
+            _spawnedTargetPoints[cachedTargetPoint].SetActive(true);
 
 
         int rand = Random.Range(0, mGameManager._TargetMarkPost.Count);
@@ -101,6 +98,7 @@ public class AttackManager : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// This Helps in Instantiating the 2X Multiplier 
     /// </summary>    
@@ -109,66 +107,6 @@ public class AttackManager : MonoBehaviour
         Vector3 newMultiplier = mGameManager._TargetMarkPost[0];
         _multiplierGameObject = Instantiate(_multiplierPrefab, newMultiplier, Quaternion.identity);
         _multiplierGameObject.name = 0.ToString();
-    }
-
-
-
-    /*  void LaunchProjectile()
-      {
-          Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
-          RaycastHit hit;
-
-          if (Physics.Raycast(camRay, out hit, 100f, layer))
-          {
-              Cursor.SetActive(true);
-              Cursor.transform.position = hit.point + Vector3.up * 0.1f;
-
-              Vector3 Vo = CalculateVelocity(hit.point, _shotPoint.position, 1f);
-
-              transform.rotation = Quaternion.LookRotation(Vo);
-
-              if (Input.GetMouseButtonDown(0))
-              {
-                  Rigidbody obj = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
-                  obj.velocity = Vo;
-              }
-
-          }
-          else
-          {
-              Cursor.SetActive(false);
-          }
-      } */
-
-
-    /// <summary>
-    ///  Calcuate the Projectile  of the Bullet from from Origin to Target
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="origin"></param>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    Vector3 CalculateVelocity(Vector3 target, Vector3 origin,float time)
-    {
-        //Define 
-        Vector3 _distance = target - origin;
-        Vector3 _distanceXZ = _distance;
-        _distanceXZ.y = 0f;
-
-        //Distance Value
-
-        float sY = _distance.y;
-        float sXZ = _distanceXZ.magnitude;
-
-        float Vxz = sXZ / time;
-        float Vy = sY / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
-
-        Vector3 result = _distanceXZ.normalized;
-        result *= Vxz;
-        result.y = Vy;
-
-        return result;
-
     }
 
 
@@ -191,8 +129,8 @@ public class AttackManager : MonoBehaviour
                     Debug.Log("multiplier 2x");
                     _multiplierGameObject.transform.GetChild(0).gameObject.SetActive(true);
                 }
-            } 
-            
+            }
+
             switch (mGameManager._BuildingCost[i])
             {
                 case 1000:
@@ -232,11 +170,12 @@ public class AttackManager : MonoBehaviour
                 _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite5;
                 break;
         }
-      
+
         Invoke("DisableBuildingCost", 2f);
         CancelInvoke("DoMultiplierSwitching");
         Invoke("PerformTarget", 2.1f);
     }
+
 
     public void DisableBuildingCost()
     {
@@ -264,9 +203,7 @@ public class AttackManager : MonoBehaviour
         {
             _multiplierGameObject.SetActive(false);
         }
-       // Camera cam = Camera.main;
-        //  Camera.main.transform.parent.position = new Vector3(_TargetTransform.localPosition.x, _TargetTransform.localPosition.y, _TargetTransform.localPosition.z) + new Vector3(-30f, 197.1f, -483.8f);
-        //GameObject can = Instantiate(_Cannon, vect, Quaternion.identity);
+
         Debug.Log("before coroutine");
         StartCoroutine(Transition());
         //  Camera.main.transform.parent.position = Vector3.Lerp( (this.transform.position),(new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)),1f);
@@ -274,7 +211,7 @@ public class AttackManager : MonoBehaviour
         Camera.main.transform.parent.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
         // _Cannon.SetActive(true);
-      //  _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
+        //  _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
         //_Cannon.SetActive(false);
         // ScoreCalculation(trans);
         //StartCoroutine(ScoreCalculation(_TargetTransform));
@@ -288,27 +225,27 @@ public class AttackManager : MonoBehaviour
         }
 
     }
-    
-     public IEnumerator ScoreCalculation(Transform trans)
-     {
 
-         int RewardValue = mGameManager._BuildingCost[int.Parse(trans.gameObject.name)];
-         _ScoreTextOne.text = "Building Cost - " + RewardValue;
-         if (trans.gameObject.name == _multiplierGameObject.name)
-         {
+    public IEnumerator ScoreCalculation(Transform trans)
+    {
+
+        int RewardValue = mGameManager._BuildingCost[int.Parse(trans.gameObject.name)];
+        _ScoreTextOne.text = "Building Cost - " + RewardValue;
+        if (trans.gameObject.name == _multiplierGameObject.name)
+        {
             _ScoreTextTwo.text = "Multiplier (2x) - " + RewardValue + " * 2";
             RewardValue = RewardValue * 2;
-              
-         }
-         _ScoreTextThree.text = "Your Score Are - " + RewardValue;
-         yield return new WaitForSeconds(2);
-         _ScoreTextThree.transform.parent.gameObject.SetActive(true);
-         Debug.Log("I am Here");
-    } 
+
+        }
+        _ScoreTextThree.text = "Your Score Are - " + RewardValue;
+        yield return new WaitForSeconds(2);
+        _ScoreTextThree.transform.parent.gameObject.SetActive(true);
+        Debug.Log("I am Here");
+    }
 
     public void CannonActivation()
     {
-       // _Cannon.SetActive(true);
+        // _Cannon.SetActive(true);
         _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
     }
 
@@ -323,10 +260,15 @@ public class AttackManager : MonoBehaviour
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Debug.Log("Inside Coroutine");
 
-            Camera.main.transform.parent.position = Vector3.Lerp(startingPos, (new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)), t*3);
+            Camera.main.transform.parent.position = Vector3.Lerp(startingPos, (new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z)), t * 3);
             yield return 0;
         }
 
 
+    }
+
+    public void BackButton()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
