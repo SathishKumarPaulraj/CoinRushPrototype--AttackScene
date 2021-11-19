@@ -12139,10 +12139,11 @@ MonoBehaviour:
   mTargetToRotateAround: {fileID: 0}
   _RotationLimit: 30
   _CameraFreeRoam: 1
-  _CameraParent: {fileID: 343195022}
-  mHorizontalPanSpeed: 200
-  _CameraLeftBound: -100
-  _CameraRightBound: 100
+  mHorizontalPanSpeed: 20
+  _CameraLeftBound: -10
+  _CameraRightBound: 10
+  _CameraUpBound: 0
+  _CameraDownBound: 0
 --- !u!1001 &1631610372
 PrefabInstance:
   m_ObjectHideFlags: 0
