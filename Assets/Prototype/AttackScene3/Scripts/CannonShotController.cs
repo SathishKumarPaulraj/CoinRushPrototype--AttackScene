@@ -92,8 +92,6 @@ public class CannonShotController : MonoBehaviour
     public void AssignPos(Transform tran)
     {
         _TargetTransform = tran;
-        //this.transform.parent = Camera.main.transform.parent;
-        //this.transform.localPosition = new Vector3(0, -35f, 80f);
         this.transform.position = new Vector3(_TargetTransform.position.x, CannonAttackPosition.y, CannonAttackPosition.z);
         this.gameObject.SetActive(true);
         Invoke("ShootBullet", 2.5f);
@@ -103,8 +101,6 @@ public class CannonShotController : MonoBehaviour
     {
         _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
         _bullet.GetComponent<Missile>().target = _TargetTransform;
-        //_bullet = Instantiate(_bulletPrefab, _shotPoint.transform.position, _shotPoint.transform.rotation);
-        //_bullet.velocity = CalculateVelocity(_TargetTransform.transform.position, _shotPoint.transform.position, 1f);
         Debug.Log("Cannon fired");
        Camera.main.transform.parent.parent = _bullet.transform;
         Invoke("DetachCamera",1.5f);
@@ -117,20 +113,7 @@ public class CannonShotController : MonoBehaviour
     /// </summary>
     public void DetachCamera()
     {
-       
-      /* float distance = _TargetTransform.position.z + Camera.main.transform.parent.position.z;
-        Debug.Log(_TargetTransform.position.z +" a");
-        Debug.Log(Camera.main.transform.parent.position.z + "b");
-        Debug.Log(distance + "disatnce");
-        float cameraDisatnce = Camera.main.transform.position.z;
-        Debug.Log(Camera.main.transform.position.z + "c");
-      //  Debug.Log(_TargetTransform.position.y);
-      // // Debug.Log(Camera.main.transform.position.y);
-      //  Debug.Log(distance + "Disatance"); */
-     // if (cameraDisatnce >= distance/2)
-        {
             Camera.main.transform.parent = null;
-        }
     }
 
     /// <summary>
@@ -145,8 +128,6 @@ public class CannonShotController : MonoBehaviour
         {
             Debug.Log("Shield Activated");
             Debug.Log(_bulletPrefab.transform.GetChild(0).name);
-         //   GameObject ParticleObj = GameObject.Find("Ball Variant/BuildingDestroyParticle");
-           // Debug.Log(ParticleObj.transform.);
             _bullet.transform.GetChild(0).gameObject.SetActive(true);
             _bullet.transform.GetChild(1).gameObject.SetActive(true);
             _bullet.transform.GetChild(0).parent = null;
