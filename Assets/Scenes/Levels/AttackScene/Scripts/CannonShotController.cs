@@ -100,20 +100,25 @@ public class CannonShotController : MonoBehaviour
     public void ShootBullet()
     {
         _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
-        _bullet.GetComponent<Missile>().target = _TargetTransform;
+        _bullet.GetComponent<BallLaunch>().target = _TargetTransform;
         Debug.Log("Cannon fired");
-       Camera.main.transform.parent.parent = _bullet.transform;
-        Invoke("DetachCamera",1.5f);
-       Invoke("DestroyBullet", 2.0f);
+        //   Camera.main.transform.parent.parent = _bullet.transform;
+      //  Invoke("FollowCamera", 0.1f);
+        //Invoke("DetachCamera",1.5f);
+        //Invoke("DestroyBullet", 2.0f);
     }
   
 
+    public void FollowCamera()
+    {
+        Camera.main.transform.parent.parent = _bullet.transform;
+    }
     /// <summary>
     /// To detach the camera before the ball hits the building 
     /// </summary>
     public void DetachCamera()
     {
-            Camera.main.transform.parent = null;
+       Camera.main.transform.parent = null;
     }
 
     /// <summary>
@@ -130,7 +135,7 @@ public class CannonShotController : MonoBehaviour
             Debug.Log(_bulletPrefab.transform.GetChild(0).name);
             _bullet.transform.GetChild(0).gameObject.SetActive(true);
             _bullet.transform.GetChild(1).gameObject.SetActive(true);
-            _bullet.transform.GetChild(0).parent = null;
+            //_bullet.transform.GetChild(0).parent = null;
         }
         else
         {
