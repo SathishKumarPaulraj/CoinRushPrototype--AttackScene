@@ -25,6 +25,13 @@ public class AttackManager : MonoBehaviour
     public bool _Shield = false;
     public Quaternion CameraAttackRotation;
     public Vector3 CameraAttackPosition;
+    public bool _AllowInteraction = true;
+    public GameObject MultiplierGO;
+    public GameObject _CanvasGO;
+    public GameObject _TargetButton;
+    public float HeightAdjustment = 100;
+    public Sprite _TargetSprite;
+    public Sprite _MultiplierSprite;
 
     private Camera cam;
     private int cachedTargetPoint = -1;
@@ -46,7 +53,7 @@ public class AttackManager : MonoBehaviour
         cam = Camera.main;
 
         TargetInstantiation();
-        MultiplierInstantiation();
+        //MultiplierInstantiation();
         InvokeRepeating("DoMultiplierSwitching", 0f, _MultiplierSwitchTime);
 
 
@@ -65,21 +72,20 @@ public class AttackManager : MonoBehaviour
     {
         if (_multiplierGameObject == null)
         {
-            Vector3 newMultiplier = mGameManager._TargetMarkPost[0];
-            _multiplierGameObject = Instantiate(_multiplierPrefab, newMultiplier, Quaternion.identity);
-
+            // newMultiplier = mGameManager._TargetMarkPost[0];
+            _multiplierGameObject = _spawnedTargetPoints[0];
         }
 
+        //if (cachedTargetPoint != -1)
+        //  _spawnedTargetPoints[cachedTargetPoint].SetActive(true);
         if (cachedTargetPoint != -1)
-            _spawnedTargetPoints[cachedTargetPoint].SetActive(true);
-
-
+            _spawnedTargetPoints[cachedTargetPoint].GetComponent<Image>().sprite = _TargetSprite;
         int rand = Random.Range(0, mGameManager._TargetMarkPost.Count);
         cachedTargetPoint = rand;
-        _multiplierGameObject.name = cachedTargetPoint.ToString();
-        _spawnedTargetPoints[cachedTargetPoint].SetActive(false);
-        _multiplierGameObject.transform.localPosition = _spawnedTargetPoints[cachedTargetPoint].transform.localPosition;
-        _multiplierGameObject.transform.localRotation = _spawnedTargetPoints[cachedTargetPoint].transform.localRotation;
+        _multiplierGameObject = _spawnedTargetPoints[cachedTargetPoint];
+        _spawnedTargetPoints[cachedTargetPoint].GetComponent<Image>().sprite = _MultiplierSprite;
+        //_multiplierGameObject.transform.localPosition = _spawnedTargetPoints[cachedTargetPoint].transform.localPosition;
+        //_multiplierGameObject.transform.localRotation = _spawnedTargetPoints[cachedTargetPoint].transform.localRotation;
     }
 
 
@@ -90,11 +96,25 @@ public class AttackManager : MonoBehaviour
     {
         for (int i = 0; i < mGameManager._BuildingDetails.Count; i++)
         {
-            GameObject go = Instantiate(_TargetPrefab, mGameManager._TargetMarkPost[i], mGameManager._TargetMarkRotation[i]);
+
+            GameObject go = Instantiate(_TargetButton) as GameObject; //GameObject.Instantiate(_Button);//Instantiate(_Button, Vector3.zero, Quaternion.identity) as Button;
+            go.transform.SetParent(_CanvasGO.transform, false);
+            go.transform.SetParent(_CanvasGO.transform);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(mGameManager._BuildingDetails[i].transform.position);
+            screenPos.y = screenPos.y + HeightAdjustment;
+            screenPos.z = 0;
+            go.transform.position = screenPos;
+
+
             go.name = i.ToString();
             Debug.Log(i);
             _spawnedTargetPoints.Add(go);
-            this.gameObject.transform.LookAt(Camera.main.transform);
+            //this.gameObject.transform.LookAt(Camera.main.transform);
+            go.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                AssignTarget(mGameManager._BuildingDetails[int.Parse(go.name)].transform);
+            });
+
         }
     }
 
@@ -116,79 +136,72 @@ public class AttackManager : MonoBehaviour
     /// <param name="trans"></param>
     public void AssignTarget(Transform trans)
     {
-        _TargetTransform = trans;
-        GameObject CamParent = GameObject.Find("CameraParent");
-        CamParent.GetComponent<AttackCameraController>()._CameraFreeRoam = false;
+        Debug.LogError("Assign Target Called");
 
-        for (int i = 0; i< _spawnedTargetPoints.Count; i++)
+        if (_AllowInteraction == true)
         {
-            if (i != int.Parse(_TargetTransform.gameObject.name))
+            _AllowInteraction = false;
+            _TargetTransform = trans;
+            GameObject CamParent = Camera.main.gameObject; //GameObject.Find("CameraParent");
+            CamParent.GetComponent<AttackCameraController>()._CameraFreeRoam = false;
+
+            for (int i = 0; i < mGameManager._BuildingCost.Count; i++)
             {
-                _spawnedTargetPoints[i].GetComponent<TargetPosition>().enabled = false;
-            }
-        }
-        if (_multiplierGameObject.name != _TargetTransform.gameObject.name)
-        {
-            _multiplierGameObject.GetComponent<TargetPosition>().enabled = false;
-        }
-
-
-        for (int i = 0; i < mGameManager._BuildingCost.Count; i++)
-        {
-            if (mGameManager._BuildingShield[i] == true)
-            {
-                _spawnedTargetPoints[i].transform.GetChild(0).gameObject.SetActive(true);
-                Debug.Log("Target ");
-                if (_multiplierGameObject.name == _TargetTransform.gameObject.name)
+                if (mGameManager._BuildingShield[i] == true)
                 {
-                    Debug.Log("multiplier 2x");
-                    _multiplierGameObject.transform.GetChild(0).gameObject.SetActive(true);
+                    _spawnedTargetPoints[i].transform.GetChild(0).gameObject.SetActive(true);
+                    Debug.Log(_TargetTransform.name);
+                    if (_multiplierGameObject == _TargetTransform)
+                    {
+                        //  Debug.Log("multiplier 2x");
+                        // _multiplierGameObject.transform.GetChild(0).gameObject.SetActive(true);
+                    }
                 }
-            }
 
-            switch (mGameManager._BuildingCost[i])
+                switch (mGameManager._BuildingCost[i])
+                {
+                    case 1000:
+                        _spawnedTargetPoints[i].GetComponent<Image>().sprite = _Sprite1;
+                        break;
+                    case 2000:
+                        _spawnedTargetPoints[i].GetComponent<Image>().sprite = _Sprite2;
+                        break;
+                    case 3000:
+                        _spawnedTargetPoints[i].GetComponent<Image>().sprite = _Sprite3;
+                        break;
+                    case 4000:
+                        _spawnedTargetPoints[i].GetComponent<Image>().sprite = _Sprite4;
+                        break;
+                    case 5000:
+                        _spawnedTargetPoints[i].GetComponent<Image>().sprite = _Sprite5;
+                        break;
+                }
+
+
+            }
+            switch (int.Parse(_multiplierGameObject.name))
             {
-                case 1000:
-                    _spawnedTargetPoints[i].GetComponent<SpriteRenderer>().sprite = _Sprite1;
+                case 0:
+                    _multiplierGameObject.GetComponent<Image>().sprite = _Sprite1;
                     break;
-                case 2000:
-                    _spawnedTargetPoints[i].GetComponent<SpriteRenderer>().sprite = _Sprite2;
+                case 1:
+                    _multiplierGameObject.GetComponent<Image>().sprite = _Sprite2;
                     break;
-                case 3000:
-                    _spawnedTargetPoints[i].GetComponent<SpriteRenderer>().sprite = _Sprite3;
+                case 2:
+                    _multiplierGameObject.GetComponent<Image>().sprite = _Sprite3;
                     break;
-                case 4000:
-                    _spawnedTargetPoints[i].GetComponent<SpriteRenderer>().sprite = _Sprite4;
+                case 3:
+                    _multiplierGameObject.GetComponent<Image>().sprite = _Sprite4;
                     break;
-                case 5000:
-                    _spawnedTargetPoints[i].GetComponent<SpriteRenderer>().sprite = _Sprite5;
+                case 4:
+                    _multiplierGameObject.GetComponent<Image>().sprite = _Sprite5;
                     break;
             }
 
-
+            Invoke("DisableBuildingCost", 2f);
+            CancelInvoke("DoMultiplierSwitching");
+            Invoke("PerformTarget", 2.1f);
         }
-        switch (int.Parse(_multiplierGameObject.name))
-        {
-            case 0:
-                _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite1;
-                break;
-            case 1:
-                _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite2;
-                break;
-            case 2:
-                _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite3;
-                break;
-            case 3:
-                _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite4;
-                break;
-            case 4:
-                _multiplierGameObject.GetComponent<SpriteRenderer>().sprite = _Sprite5;
-                break;
-        }
-
-        Invoke("DisableBuildingCost", 2f);
-        CancelInvoke("DoMultiplierSwitching");
-        Invoke("PerformTarget", 2.1f);
     }
 
 
@@ -204,24 +217,24 @@ public class AttackManager : MonoBehaviour
 
     public void PerformTarget()
     {
-        int transIndex = int.Parse(_TargetTransform.gameObject.name);
-        _Shield = mGameManager._BuildingShield[transIndex];
+        //int transIndex = int.Parse(_TargetTransform.gameObject.name);
+        //_Shield = mGameManager._BuildingShield[transIndex];
 
         for (int i = 0; i < _spawnedTargetPoints.Count; i++)
         {
-            if (i != int.Parse(_TargetTransform.gameObject.name))
+            //if (i != int.Parse(_TargetTransform.gameObject.name))
             {
                 _spawnedTargetPoints[i].SetActive(false);
             }
         }
-        if (_multiplierGameObject.name != _TargetTransform.gameObject.name)
+        // if (_multiplierGameObject.name != _TargetTransform.gameObject.name)
         {
             _multiplierGameObject.SetActive(false);
         }
 
         Debug.Log("before coroutine");
         StartCoroutine(Transition());
-        Camera.main.transform.parent.rotation = CameraAttackRotation;
+        Camera.main.transform.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
         // ScoreCalculation(trans);
         //StartCoroutine(ScoreCalculation(_TargetTransform));
@@ -256,13 +269,15 @@ public class AttackManager : MonoBehaviour
     public void CannonActivation()
     {
         // _Cannon.SetActive(true);
+        float zpos = 700;//_Cannon.transform.position.z - _TargetTransform.position.z; // Difference between last building
+        _Cannon.transform.position = new Vector3(_Cannon.transform.position.x, _Cannon.transform.position.y, _TargetTransform.position.z - zpos);
         _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
     }
 
     IEnumerator Transition()
     {
         float t = 0.0f;
-        Vector3 startingPos = Camera.main.transform.parent.position;
+        Vector3 startingPos = Camera.main.transform.position;
         Vector3 endPos = new Vector3(_TargetTransform.localPosition.x, CameraAttackPosition.y, CameraAttackPosition.z);
         Debug.Log(startingPos);
         Debug.Log(endPos);
@@ -272,7 +287,10 @@ public class AttackManager : MonoBehaviour
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Debug.Log("Inside Coroutine");
 
-            Camera.main.transform.parent.position = Vector3.Lerp(startingPos, endPos, t * 3);
+            Camera.main.transform.position = Vector3.Lerp(startingPos, endPos, t * 3);
+            //GameObject temp = new GameObject();
+            //temp.transform.LookAt(_TargetTransform);
+            //Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, temp.transform.rotation, t*3);
             yield return 0;
         }
 

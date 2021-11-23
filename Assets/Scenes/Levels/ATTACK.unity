@@ -2675,7 +2675,7 @@ GameObject:
   - component: {fileID: 295865087}
   - component: {fileID: 295865086}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BackButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3164,7 +3164,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 343195021}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caddc1ea32e51940945601f52a4d080, type: 3}
   m_Name: 
@@ -3814,6 +3814,11 @@ PrefabInstance:
 --- !u!224 &412256754 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4524371248474605912, guid: a8d7ca6ee58cdf845aec832d700b28d8, type: 3}
+  m_PrefabInstance: {fileID: 412256753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &412256755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4524371248474605908, guid: a8d7ca6ee58cdf845aec832d700b28d8, type: 3}
   m_PrefabInstance: {fileID: 412256753}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &432151325
@@ -4561,6 +4566,13 @@ MonoBehaviour:
   _Shield: 0
   CameraAttackRotation: {x: 0.25881904, y: 0, z: 0, w: 0.9659258}
   CameraAttackPosition: {x: 0, y: 250, z: -665}
+  _AllowInteraction: 1
+  MultiplierGO: {fileID: 1456488429847408084, guid: 8434d3825b1feaa44a32e357410844ad, type: 3}
+  _CanvasGO: {fileID: 412256755}
+  _TargetButton: {fileID: 1135609152499672999, guid: c3cd7c80a6940d049877f335638f2b95, type: 3}
+  HeightAdjustment: 100
+  _TargetSprite: {fileID: 21300000, guid: 1e1d11452f855a443a3ddf4875d67cd5, type: 3}
+  _MultiplierSprite: {fileID: 21300000, guid: bb829f1e9bae68e4eb23855d5ad8513d, type: 3}
 --- !u!4 &503097514
 Transform:
   m_ObjectHideFlags: 0
@@ -6681,11 +6693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af36dcb57a45d442bf10b78c19dadf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &785332397 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4524371247633333945, guid: a8d7ca6ee58cdf845aec832d700b28d8, type: 3}
-  m_PrefabInstance: {fileID: 412256753}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &811596252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12049,7 +12056,6 @@ GameObject:
   - component: {fileID: 1622744563}
   - component: {fileID: 1622744562}
   - component: {fileID: 1622744565}
-  - component: {fileID: 1622744566}
   - component: {fileID: 1622744567}
   m_Layer: 0
   m_Name: Main Camera
@@ -12155,35 +12161,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &1622744566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622744561}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de3974bee9bd5b04a8511d4d792c520e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _CameraParent: {fileID: 343195022}
-  mHorizontalPanSpeed: 150
-  _CameraLeftBound: -220
-  _CameraRightBound: 220
-  _CameraUpBound: 0
-  _CameraDownBound: 0
-  mZoomSpeed: 200
-  mCameraNearBound: 485
-  mCameraFarBound: -130
-  _views:
-  - {fileID: 1474503603}
-  - {fileID: 2112903083}
-  _transitionSpeed: 4
-  _DrawButtonRectTransform: {fileID: 785332397}
-  _DrawButtonClicked: 0
-  _CameraFreeRoam: 1
-  _RotationLimit: 30
 --- !u!114 &1622744567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12191,7 +12168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622744561}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caddc1ea32e51940945601f52a4d080, type: 3}
   m_Name: 
@@ -12201,8 +12178,8 @@ MonoBehaviour:
   _RotationLimit: 30
   _CameraFreeRoam: 1
   mHorizontalPanSpeed: 150
-  _CameraLeftBound: -30
-  _CameraRightBound: 30
+  _CameraLeftBound: -50
+  _CameraRightBound: 50
   _CameraUpBound: 0
   _CameraDownBound: 0
 --- !u!1001 &1631610372
@@ -22786,6 +22763,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 486691023478576439, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 486691023478576439, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: _bulletPrefab
       value: 
