@@ -120,6 +120,19 @@ public class AttackManager : MonoBehaviour
         GameObject CamParent = GameObject.Find("CameraParent");
         CamParent.GetComponent<AttackCameraController>()._CameraFreeRoam = false;
 
+        for (int i = 0; i< _spawnedTargetPoints.Count; i++)
+        {
+            if (i != int.Parse(_TargetTransform.gameObject.name))
+            {
+                _spawnedTargetPoints[i].GetComponent<TargetPosition>().enabled = false;
+            }
+        }
+        if (_multiplierGameObject.name != _TargetTransform.gameObject.name)
+        {
+            _multiplierGameObject.GetComponent<TargetPosition>().enabled = false;
+        }
+
+
         for (int i = 0; i < mGameManager._BuildingCost.Count; i++)
         {
             if (mGameManager._BuildingShield[i] == true)

@@ -55,24 +55,42 @@ public class BallLaunch : MonoBehaviour
         if (_attackManager._Shield == true)
         {
             Debug.Log("Shield Activated");
-            _bullet.transform.GetChild(0).gameObject.SetActive(true);
-            _bullet.transform.GetChild(1).gameObject.SetActive(true);
-            _bullet.transform.GetChild(0).parent = null;
-            _bullet.transform.GetChild(1).parent = null;
+
+            for (int i = 0; i < _bullet.transform.childCount-2; i++)
+            {
+                _bullet.transform.GetChild(i).gameObject.SetActive(true);
+                _bullet.transform.GetChild(i).parent = null;
+
+                Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
+            }
+            /* _bullet.transform.GetChild(0).gameObject.SetActive(true);
+             _bullet.transform.GetChild(1).gameObject.SetActive(true);
+             _bullet.transform.GetChild(0).parent = null;
+             _bullet.transform.GetChild(1).parent = null;
+            */
         }
         else
         {
             Debug.Log("Shield Disabled");
-            _bullet.transform.GetChild(0).gameObject.SetActive(true);
-            _bullet.transform.GetChild(1).gameObject.SetActive(true);
-            _bullet.transform.GetChild(2).gameObject.SetActive(true);
-            _bullet.transform.GetChild(3).gameObject.SetActive(true);
-            _bullet.transform.GetChild(0).parent = null;
-            _bullet.transform.GetChild(1).parent = null;
-            _bullet.transform.GetChild(2).parent = null;
-            _bullet.transform.GetChild(3).parent = null;
+            Debug.Log(_bullet.transform.childCount + "Child Count");
+            for(int i=0; i < _bullet.transform.childCount; i++)
+            {
+                _bullet.transform.GetChild(i).gameObject.SetActive(true);
+                _bullet.transform.GetChild(i).parent = null;
 
+                Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
+            }
+            /*  _bullet.transform.GetChild(0).gameObject.SetActive(true);
+              _bullet.transform.GetChild(1).gameObject.SetActive(true);
+              _bullet.transform.GetChild(2).gameObject.SetActive(true);
+              _bullet.transform.GetChild(3).gameObject.SetActive(true);
+              _bullet.transform.GetChild(0).parent = null;
+              _bullet.transform.GetChild(1).parent = null;
+              _bullet.transform.GetChild(2).parent = null;
+              _bullet.transform.GetChild(3).parent = null;
+            */
         }
+        _bullet.SetActive(false);
     }
   
 }
