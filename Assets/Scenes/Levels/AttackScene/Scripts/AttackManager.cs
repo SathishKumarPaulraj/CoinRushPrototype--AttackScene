@@ -35,6 +35,7 @@ public class AttackManager : MonoBehaviour
 
     private Camera cam;
     private int cachedTargetPoint = -1;
+    private int TargetObjectIndex;
     private float transitionDuration = 2.5f;
 
     private void Awake()
@@ -56,13 +57,12 @@ public class AttackManager : MonoBehaviour
         //MultiplierInstantiation();
         InvokeRepeating("DoMultiplierSwitching", 0f, _MultiplierSwitchTime);
 
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        TargetButtonPositionUpdate();
     }
 
     /// <summary>
@@ -80,7 +80,8 @@ public class AttackManager : MonoBehaviour
         //  _spawnedTargetPoints[cachedTargetPoint].SetActive(true);
         if (cachedTargetPoint != -1)
             _spawnedTargetPoints[cachedTargetPoint].GetComponent<Image>().sprite = _TargetSprite;
-        int rand = Random.Range(0, mGameManager._TargetMarkPost.Count);
+        // int rand = Random.Range(0, mGameManager._TargetMarkPost.Count);
+        int rand = Random.Range(0, mGameManager._BuildingDetails.Count);
         cachedTargetPoint = rand;
         _multiplierGameObject = _spawnedTargetPoints[cachedTargetPoint];
         _spawnedTargetPoints[cachedTargetPoint].GetComponent<Image>().sprite = _MultiplierSprite;
@@ -98,7 +99,6 @@ public class AttackManager : MonoBehaviour
         {
 
             GameObject go = Instantiate(_TargetButton) as GameObject; //GameObject.Instantiate(_Button);//Instantiate(_Button, Vector3.zero, Quaternion.identity) as Button;
-            go.transform.SetParent(_CanvasGO.transform, false);
             go.transform.SetParent(_CanvasGO.transform);
             Vector3 screenPos = Camera.main.WorldToScreenPoint(mGameManager._BuildingDetails[i].transform.position);
             screenPos.y = screenPos.y + HeightAdjustment;
@@ -113,11 +113,29 @@ public class AttackManager : MonoBehaviour
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
                 AssignTarget(mGameManager._BuildingDetails[int.Parse(go.name)].transform);
+                if (mGameManager._BuildingShield[int.Parse(go.name)] == true)
+                    _Shield = true;
+                TargetObjectIndex = int.Parse(go.name);
+                Debug.Log(TargetObjectIndex + "TargetObjectIndex");
+
             });
 
         }
     }
 
+    public void TargetButtonPositionUpdate()
+    {
+        for (int i = 0; i < _spawnedTargetPoints.Count; i++)
+        {
+
+            GameObject go = _spawnedTargetPoints[i];
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(mGameManager._BuildingDetails[i].transform.position);
+            screenPos.y = screenPos.y + HeightAdjustment;
+            screenPos.z = 0;
+            go.transform.position = screenPos;
+        }
+    }
+  
 
     /// <summary>
     /// This Helps in Instantiating the 2X Multiplier 
@@ -144,6 +162,7 @@ public class AttackManager : MonoBehaviour
             _TargetTransform = trans;
             GameObject CamParent = Camera.main.gameObject; //GameObject.Find("CameraParent");
             CamParent.GetComponent<AttackCameraController>()._CameraFreeRoam = false;
+
 
             for (int i = 0; i < mGameManager._BuildingCost.Count; i++)
             {
@@ -215,6 +234,7 @@ public class AttackManager : MonoBehaviour
         _multiplierGameObject.SetActive(false);
     }
 
+
     public void PerformTarget()
     {
         //int transIndex = int.Parse(_TargetTransform.gameObject.name);
@@ -236,8 +256,8 @@ public class AttackManager : MonoBehaviour
         StartCoroutine(Transition());
         Camera.main.transform.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
-        // ScoreCalculation(trans);
-        //StartCoroutine(ScoreCalculation(_TargetTransform));
+       //  ScoreCalculation(_TargetTransform);
+        StartCoroutine(ScoreCalculation(_TargetTransform));
         if (_Shield == true)
         {
             Debug.Log("shield Activated");
@@ -251,26 +271,34 @@ public class AttackManager : MonoBehaviour
 
     public IEnumerator ScoreCalculation(Transform trans)
     {
+        Debug.Log("Scoring Calculation function Entered");
 
-        int RewardValue = mGameManager._BuildingCost[int.Parse(trans.gameObject.name)];
+        /*  int RewardValue = mGameManager._BuildingCost[int.Parse(trans.gameObject.name)];
+          _ScoreTextOne.text = "Building Cost - " + RewardValue;
+          if (trans.gameObject.name == _multiplierGameObject.name)
+          {
+              _ScoreTextTwo.text = "Multiplier (2x) - " + RewardValue + " * 2";
+              RewardValue = RewardValue * 2;
+
+          }
+          _ScoreTextThree.text = "Your Score Are - " + RewardValue;  */
+
+        int RewardValue = mGameManager._BuildingCost[TargetObjectIndex];
         _ScoreTextOne.text = "Building Cost - " + RewardValue;
-        if (trans.gameObject.name == _multiplierGameObject.name)
-        {
-            _ScoreTextTwo.text = "Multiplier (2x) - " + RewardValue + " * 2";
-            RewardValue = RewardValue * 2;
 
-        }
-        _ScoreTextThree.text = "Your Score Are - " + RewardValue;
-        yield return new WaitForSeconds(2);
-        _ScoreTextThree.transform.parent.gameObject.SetActive(true);
-        Debug.Log("I am Here");
+        yield return new WaitForSeconds(7);
+        _ScorePanel.SetActive(true);
+        //_ScoreTextThree.transform.parent.gameObject.SetActive(true);
+        //Debug.Log("I am Here");
+
     }
 
     public void CannonActivation()
     {
         // _Cannon.SetActive(true);
-        float zpos = 700;//_Cannon.transform.position.z - _TargetTransform.position.z; // Difference between last building
-        _Cannon.transform.position = new Vector3(_Cannon.transform.position.x, _Cannon.transform.position.y, _TargetTransform.position.z - zpos);
+        //float zpos = 700;//_Cannon.transform.position.z - _TargetTransform.position.z; // Difference between last building
+        //_Cannon.transform.position = new Vector3(_Cannon.transform.position.x, _Cannon.transform.position.y, _TargetTransform.position.z - zpos);
+        //Debug.Log("Cannon Activation function" + _TargetTransform);
         _Cannon.GetComponent<CannonShotController>().AssignPos(_TargetTransform);
     }
 
@@ -293,8 +321,6 @@ public class AttackManager : MonoBehaviour
             //Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, temp.transform.rotation, t*3);
             yield return 0;
         }
-
-
     }
 
     public void BackButton()

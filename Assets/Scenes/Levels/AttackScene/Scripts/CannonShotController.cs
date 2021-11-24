@@ -12,7 +12,8 @@ public class CannonShotController : MonoBehaviour
     //  public Quaternion CameraAttackRotation;
     // public float CameraAttackPositionZ = -665f;
     public Vector3 CannonAttackPosition;
-    
+    Quaternion rot;
+    bool fixCameraRot = false;
 
 
     // Start is called before the first frame update
@@ -24,7 +25,12 @@ public class CannonShotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (fixCameraRot)
+        {
+            Camera.main.transform.LookAt(_TargetTransform);
+           // Camera.main.transform.rotation = new Quaternion ( -150, Camera.main.transform.localRotation.y, Camera.main.transform.localRotation.z, Camera.main.transform.localRotation.w);
+        }
+      
     }
 
 
@@ -102,13 +108,43 @@ public class CannonShotController : MonoBehaviour
         _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
         _bullet.GetComponent<BallLaunch>().target = _TargetTransform;
         Debug.Log("Cannon fired");
-        //   Camera.main.transform.parent.parent = _bullet.transform;
-      //  Invoke("FollowCamera", 0.1f);
-        //Invoke("DetachCamera",1.5f);
+         // Camera.main.transform.parent = _bullet.transform;
+        Invoke("FollowCamera", .1f);
+        Invoke("DetachCamera",1.5f);
         //Invoke("DestroyBullet", 2.0f);
     }
-  
 
+
+    public void  FollowCamera()
+    {
+     //  Vector3 velocity = Vector3.zero;
+       
+        // rot = Camera.main.transform.rotation;
+        Camera.main.transform.parent = _bullet.transform;
+        //Camera.main.transform.rotation = rot;
+       // transform.position = Vector3.SmoothDamp(Camera.main.transform.position, _bullet.transform.position, ref velocity, .3f);
+        Camera.main.transform.LookAt(_bullet.transform);
+        fixCameraRot = true;
+
+            //-33 0.172 0
+            //  67.345  -0.3 -0.27
+
+            //Camera.main.transform.GetComponent<AttackCameraController>()._BulletActive = true;
+            //Camera.main.transform.GetComponent<AttackCameraController>().BulletTrans = this.transform;
+            
+        
+    }
+
+    /// <summary>
+    /// To detach the camera before the ball hits the building 
+    /// </summary>
+    public void DetachCamera()
+    {
+        Camera.main.transform.parent = null;
+        fixCameraRot = false;
+        //Camera.main.transform.GetComponent<AttackCameraController>()._BulletActive = false;
+    }
+    /*
     public void FollowCamera()
     {
         Camera.main.transform.parent.parent = _bullet.transform;
@@ -119,7 +155,7 @@ public class CannonShotController : MonoBehaviour
     public void DetachCamera()
     {
        Camera.main.transform.parent = null;
-    }
+    }*/
 
     /// <summary>
     /// 1. To destroy the ball when it hits the building 
