@@ -22921,6 +22921,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 424190715, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 424190715, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.5
+      objectReference: {fileID: 0}
     - target: {fileID: 486691023478576439, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: rot.w
       value: 0.95371693
@@ -22952,6 +22960,10 @@ PrefabInstance:
     - target: {fileID: 4830786118788227611, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_Name
       value: Cannon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830786118788227611, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5206643640078891169, guid: 6309addbfa8dfe5449c011947edab147, type: 3}
       propertyPath: m_RootOrder

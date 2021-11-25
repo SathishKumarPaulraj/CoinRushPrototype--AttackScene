@@ -315,7 +315,7 @@ public class AttackManager : MonoBehaviour
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Debug.Log("Inside Coroutine");
 
-            Camera.main.transform.position = Vector3.Lerp(startingPos, endPos, t * 3);
+            Camera.main.transform.position = Vector3.Lerp(startingPos, endPos, t*3 );
             //GameObject temp = new GameObject();
             //temp.transform.LookAt(_TargetTransform);
             //Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, temp.transform.rotation, t*3);

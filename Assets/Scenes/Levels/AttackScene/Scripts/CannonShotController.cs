@@ -14,6 +14,8 @@ public class CannonShotController : MonoBehaviour
     public Vector3 CannonAttackPosition;
     Quaternion rot;
     bool fixCameraRot = false;
+    float distance;
+
 
 
     // Start is called before the first frame update
@@ -25,10 +27,22 @@ public class CannonShotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+       
         if (fixCameraRot)
         {
             Camera.main.transform.LookAt(_TargetTransform);
-           // Camera.main.transform.rotation = new Quaternion ( -150, Camera.main.transform.localRotation.y, Camera.main.transform.localRotation.z, Camera.main.transform.localRotation.w);
+            if (Vector3.Distance
+           (_bullet.transform.position, _TargetTransform.position) < (distance / 2))
+            {
+                Debug.Log("Halfway reached");
+                Debug.Log(distance / 2);
+                Camera.main.transform.parent = null;
+                fixCameraRot = false;
+
+            }
+            //  Camera.main.transform.LookAt(_TargetTransform);//_TargetTransform);
+            // Camera.main.transform.rotation = new Quaternion ( -150, Camera.main.transform.localRotation.y, Camera.main.transform.localRotation.z, Camera.main.transform.localRotation.w);
         }
       
     }
@@ -110,17 +124,23 @@ public class CannonShotController : MonoBehaviour
         Debug.Log("Cannon fired");
          // Camera.main.transform.parent = _bullet.transform;
         Invoke("FollowCamera", .1f);
-        Invoke("DetachCamera",1.5f);
+       // Invoke("DetachCamera",1.5f);
         //Invoke("DestroyBullet", 2.0f);
     }
 
 
     public void  FollowCamera()
     {
-     //  Vector3 velocity = Vector3.zero;
-       
+        //  Vector3 velocity = Vector3.zero;
+
         // rot = Camera.main.transform.rotation;
         Camera.main.transform.parent = _bullet.transform;
+         distance = Vector3.Distance(this.gameObject.transform.position, _TargetTransform.position);
+        Debug.Log(this.gameObject.transform.position);
+        Debug.Log(_TargetTransform.position);
+        Debug.Log(distance + " display distance values");
+        
+      //  Quaternion smooth = Quaternion.Lerp(_bullet.transform.rotation, Camera.main.transform.rotation, Time.deltaTime * 1f);
         //Camera.main.transform.rotation = rot;
        // transform.position = Vector3.SmoothDamp(Camera.main.transform.position, _bullet.transform.position, ref velocity, .3f);
         Camera.main.transform.LookAt(_bullet.transform);
