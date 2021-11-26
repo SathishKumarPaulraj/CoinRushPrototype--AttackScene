@@ -50,6 +50,7 @@ public class BallLaunch : MonoBehaviour
     {
         Debug.Log("Collision Entered");
         Debug.Log(collision.gameObject.name);
+        GameObject.Find("Cannon").GetComponent<CannonShotController>().fixCameraRot = false;
         _bullet = this.gameObject;
 
         if (_attackManager._Shield == true)
@@ -90,6 +91,8 @@ public class BallLaunch : MonoBehaviour
               _bullet.transform.GetChild(3).parent = null;
             */
         }
+        Camera.main.transform.parent = null;
+      
         _bullet.SetActive(false);
     }
   

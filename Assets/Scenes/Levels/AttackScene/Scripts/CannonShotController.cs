@@ -13,9 +13,11 @@ public class CannonShotController : MonoBehaviour
     // public float CameraAttackPositionZ = -665f;
     public Vector3 CannonAttackPosition;
     Quaternion rot;
-    bool fixCameraRot = false;
-    float distance;
-
+    public bool fixCameraRot = false;
+    public bool Halfwayreached = false;
+    float CannonTargetDistance;
+    float BulletSpeed = 0f;
+    float deceleration = 1f;
 
 
     // Start is called before the first frame update
@@ -32,19 +34,38 @@ public class CannonShotController : MonoBehaviour
         if (fixCameraRot)
         {
             Camera.main.transform.LookAt(_TargetTransform);
-            if (Vector3.Distance
-           (_bullet.transform.position, _TargetTransform.position) < (distance / 2))
+            if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .75)  )
             {
-                Debug.Log("Halfway reached");
-                Debug.Log(distance / 2);
-                Camera.main.transform.parent = null;
-                fixCameraRot = false;
+                Debug.Log("Quaterway reached");
+                Debug.Log(CannonTargetDistance / 2);
+      
+                    Camera.main.transform.position += Time.deltaTime * BulletSpeed * Vector3.back;
+                    BulletSpeed += deceleration;
+                    Debug.Log(" Speed " + BulletSpeed);
+
+                //  fixCameraRot = false;
+                if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .5))
+                {
+                  //  Halfwayreached = true;
+                }
 
             }
+        /*    if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (distance * .5))
+            {
+                Camera.main.transform.parent = null;
+                fixCameraRot = false;
+            }
+         */
             //  Camera.main.transform.LookAt(_TargetTransform);//_TargetTransform);
             // Camera.main.transform.rotation = new Quaternion ( -150, Camera.main.transform.localRotation.y, Camera.main.transform.localRotation.z, Camera.main.transform.localRotation.w);
         }
-      
+        if (Halfwayreached == true)
+        {
+            Debug.Log("Halfway reached");
+            Camera.main.transform.parent = null;
+            fixCameraRot = false;
+
+        }
     }
 
 
@@ -135,24 +156,24 @@ public class CannonShotController : MonoBehaviour
 
         // rot = Camera.main.transform.rotation;
         Camera.main.transform.parent = _bullet.transform;
-         distance = Vector3.Distance(this.gameObject.transform.position, _TargetTransform.position);
+        CannonTargetDistance = Vector3.Distance(this.gameObject.transform.position, _TargetTransform.position);
         Debug.Log(this.gameObject.transform.position);
         Debug.Log(_TargetTransform.position);
-        Debug.Log(distance + " display distance values");
+        Debug.Log(CannonTargetDistance + " display distance values");
         
       //  Quaternion smooth = Quaternion.Lerp(_bullet.transform.rotation, Camera.main.transform.rotation, Time.deltaTime * 1f);
         //Camera.main.transform.rotation = rot;
        // transform.position = Vector3.SmoothDamp(Camera.main.transform.position, _bullet.transform.position, ref velocity, .3f);
         Camera.main.transform.LookAt(_bullet.transform);
         fixCameraRot = true;
+        Camera.main.transform.LookAt(_TargetTransform);
+        //-33 0.172 0
+        //  67.345  -0.3 -0.27
 
-            //-33 0.172 0
-            //  67.345  -0.3 -0.27
+        //Camera.main.transform.GetComponent<AttackCameraController>()._BulletActive = true;
+        //Camera.main.transform.GetComponent<AttackCameraController>().BulletTrans = this.transform;
 
-            //Camera.main.transform.GetComponent<AttackCameraController>()._BulletActive = true;
-            //Camera.main.transform.GetComponent<AttackCameraController>().BulletTrans = this.transform;
-            
-        
+
     }
 
     /// <summary>
@@ -162,6 +183,7 @@ public class CannonShotController : MonoBehaviour
     {
         Camera.main.transform.parent = null;
         fixCameraRot = false;
+
         //Camera.main.transform.GetComponent<AttackCameraController>()._BulletActive = false;
     }
     /*
