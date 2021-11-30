@@ -5,7 +5,7 @@ using UnityEngine;
 public class CannonShotController : MonoBehaviour
 {
 
-    public Rigidbody _bulletPrefab,_bullet;
+    public Rigidbody _bulletPrefab, _bullet;
     public Transform _shotPoint;
     public Transform _TargetTransform;
     public AttackManager _AttackManager;
@@ -14,58 +14,70 @@ public class CannonShotController : MonoBehaviour
     public Vector3 CannonAttackPosition;
     Quaternion rot;
     public bool fixCameraRot = false;
-    public bool Halfwayreached = false;
+    public bool Halfwayreached = true;
+    public bool ishalfwayreached = true;
     float CannonTargetDistance;
     float BulletSpeed = 0f;
     float deceleration = 1f;
+    public GameObject shieldPref;
 
 
     // Start is called before the first frame update
     void Start()
     {
-  
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-       
+
         if (fixCameraRot)
         {
             Camera.main.transform.LookAt(_TargetTransform);
-            if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .75)  )
+            if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .75))
             {
                 Debug.Log("Quaterway reached");
-                Debug.Log(CannonTargetDistance / 2);
-      
-                    Camera.main.transform.position += Time.deltaTime * BulletSpeed * Vector3.back;
-                    BulletSpeed += deceleration;
-                    Debug.Log(" Speed " + BulletSpeed);
+                Debug.Log(CannonTargetDistance / 3);
 
-                //  fixCameraRot = false;
-                if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .5))
-                {
-                  //  Halfwayreached = true;
-                }
+                Camera.main.transform.position += Time.deltaTime * BulletSpeed * Vector3.back;
+                BulletSpeed += deceleration;
+                Debug.Log(" Speed " + BulletSpeed);
+
+                ////  fixCameraRot = false;
+                //if ((Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .5)) && ( Halfwayreached == true))
+                //{
+                //    Debug.Log("halfway region entered");
+                //    Halfwayreached = false;
+                //    Debug.Log("Halfway region false");
+
+                //}
 
             }
-        /*    if (Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (distance * .5))
+            if ((Vector3.Distance(_bullet.transform.position, _TargetTransform.position) < (CannonTargetDistance * .5)) && ishalfwayreached == true)
             {
-                Camera.main.transform.parent = null;
-                fixCameraRot = false;
+                Debug.Log("halfway region entered");
+                Halfwayreached = false;
+                if (_AttackManager._Shield == true)
+                { 
+                GameObject ShieldPrefab = Instantiate(shieldPref, _TargetTransform.position, Quaternion.identity);
+                }
+                ishalfwayreached = false;
+                Debug.Log(CannonTargetDistance / 2);
+                Debug.Log("Halfway region false");
+
             }
-         */
-            //  Camera.main.transform.LookAt(_TargetTransform);//_TargetTransform);
-            // Camera.main.transform.rotation = new Quaternion ( -150, Camera.main.transform.localRotation.y, Camera.main.transform.localRotation.z, Camera.main.transform.localRotation.w);
-        }
-        if (Halfwayreached == true)
-        {
-            Debug.Log("Halfway reached");
-            Camera.main.transform.parent = null;
-            fixCameraRot = false;
 
         }
+        /* if (Halfwayreached == true)
+         {
+             Debug.Log("Halfway reached");
+             GameObject shieldprefab = Instantiate(shieldPref, _TargetTransform.position, Quaternion.identity);
+           //   Camera.main.transform.parent = null;
+
+         }
+        */
     }
 
 
@@ -143,14 +155,14 @@ public class CannonShotController : MonoBehaviour
         _bullet = Instantiate(_bulletPrefab, _shotPoint.position, Quaternion.identity);
         _bullet.GetComponent<BallLaunch>().target = _TargetTransform;
         Debug.Log("Cannon fired");
-         // Camera.main.transform.parent = _bullet.transform;
+        // Camera.main.transform.parent = _bullet.transform;
         Invoke("FollowCamera", .1f);
-       // Invoke("DetachCamera",1.5f);
+        // Invoke("DetachCamera",1.5f);
         //Invoke("DestroyBullet", 2.0f);
     }
 
 
-    public void  FollowCamera()
+    public void FollowCamera()
     {
         //  Vector3 velocity = Vector3.zero;
 
@@ -160,10 +172,10 @@ public class CannonShotController : MonoBehaviour
         Debug.Log(this.gameObject.transform.position);
         Debug.Log(_TargetTransform.position);
         Debug.Log(CannonTargetDistance + " display distance values");
-        
-      //  Quaternion smooth = Quaternion.Lerp(_bullet.transform.rotation, Camera.main.transform.rotation, Time.deltaTime * 1f);
+
+        //  Quaternion smooth = Quaternion.Lerp(_bullet.transform.rotation, Camera.main.transform.rotation, Time.deltaTime * 1f);
         //Camera.main.transform.rotation = rot;
-       // transform.position = Vector3.SmoothDamp(Camera.main.transform.position, _bullet.transform.position, ref velocity, .3f);
+        // transform.position = Vector3.SmoothDamp(Camera.main.transform.position, _bullet.transform.position, ref velocity, .3f);
         Camera.main.transform.LookAt(_bullet.transform);
         fixCameraRot = true;
         Camera.main.transform.LookAt(_TargetTransform);
@@ -206,7 +218,7 @@ public class CannonShotController : MonoBehaviour
     public void DestroyBullet()
     {
         Destroy(_bullet, 0f);
-      
+
         if (_AttackManager._Shield == true)
         {
             Debug.Log("Shield Activated");

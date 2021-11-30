@@ -19,7 +19,8 @@ public class BallLaunch : MonoBehaviour
     private Vector3 dest; //Target location
     private Vector3 Velocity; //Motion Velocity
     private float time = 0; // Motion time
-   
+    public bool BallFlow = true;
+
 
     private void Start()
     {
@@ -32,49 +33,50 @@ public class BallLaunch : MonoBehaviour
 
     private void Update()
     {
-        // Computational displacement
-        float deltaTime = Time.deltaTime;
-        position = PhysicsUtil.GetParabolaNextPosition(position, Velocity, gravity, deltaTime);
-        transform.position = position;
-        time += deltaTime;
-        Velocity.y += gravity * deltaTime;
+        if (BallFlow == true)
+        {
+            // Computational displacement
+            float deltaTime = Time.deltaTime;
+            position = PhysicsUtil.GetParabolaNextPosition(position, Velocity, gravity, deltaTime);
+            transform.position = position;
+            time += deltaTime;
+            Velocity.y += gravity * deltaTime;
 
-        // Computational steering
-        transform.LookAt(PhysicsUtil.GetParabolaNextPosition(position, Velocity, gravity, deltaTime));
-
+            // Computational steering
+            transform.LookAt(PhysicsUtil.GetParabolaNextPosition(position, Velocity, gravity, deltaTime));
+        }
         // Simply simulate collision detection
-       // if (position.y <= dest.y) enabled = false;
+        // if (position.y <= dest.y) enabled = false;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision col)
     {
         Debug.Log("Collision Entered");
-        Debug.Log(collision.gameObject.name);
+        Debug.Log(col.gameObject.name);
         GameObject.Find("Cannon").GetComponent<CannonShotController>().fixCameraRot = false;
         _bullet = this.gameObject;
 
         if (_attackManager._Shield == true)
         {
-            Debug.Log("Shield Activated");
-
-            for (int i = 0; i < _bullet.transform.childCount-2; i++)
+            if (col.gameObject.tag == "Shield Protection")
             {
-                _bullet.transform.GetChild(i).gameObject.SetActive(true);
-                _bullet.transform.GetChild(i).parent = null;
+                BallFlow = false;
+                Debug.LogError(col.transform.position + "ball Last Position");
+                Debug.LogError(col.transform.localPosition + "ball Last Position");
+                
+               // this.gameObject.transform.position += Vector3.back;
+                // this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                Camera.main.transform.parent = null;
+                this.gameObject.GetComponent<Rigidbody>().useGravity = false;
 
-                Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
+                Debug.Log("SHIELD PROTECTED");
             }
-            /* _bullet.transform.GetChild(0).gameObject.SetActive(true);
-             _bullet.transform.GetChild(1).gameObject.SetActive(true);
-             _bullet.transform.GetChild(0).parent = null;
-             _bullet.transform.GetChild(1).parent = null;
-            */
         }
-        else
+        else if (_attackManager._Shield == false)
         {
             Debug.Log("Shield Disabled");
             Debug.Log(_bullet.transform.childCount + "Child Count");
-            for(int i=0; i < _bullet.transform.childCount; i++)
+            for (int i = 0; i < _bullet.transform.childCount; i++)
             {
                 _bullet.transform.GetChild(i).gameObject.SetActive(true);
                 _bullet.transform.GetChild(i).parent = null;
@@ -90,10 +92,55 @@ public class BallLaunch : MonoBehaviour
               _bullet.transform.GetChild(2).parent = null;
               _bullet.transform.GetChild(3).parent = null;
             */
+            Camera.main.transform.parent = null;
+
+            _bullet.SetActive(false);
         }
-        Camera.main.transform.parent = null;
-      
-        _bullet.SetActive(false);
+        // Camera.main.transform.parent = null;
+
+        // _bullet.SetActive(false);
     }
-  
+
 }
+
+//if (_attackManager._Shield == true)
+//{
+//    Debug.Log("Shield Activated");
+
+//    for (int i = 0; i < _bullet.transform.childCount-2; i++)
+//    {
+//        _bullet.transform.GetChild(i).gameObject.SetActive(true);
+//        _bullet.transform.GetChild(i).parent = null;
+
+//        Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
+//    }
+//    /* _bullet.transform.GetChild(0).gameObject.SetActive(true);
+//     _bullet.transform.GetChild(1).gameObject.SetActive(true);
+//     _bullet.transform.GetChild(0).parent = null;
+//     _bullet.transform.GetChild(1).parent = null;
+//    */
+//}
+//else
+//{
+//    Debug.Log("Shield Disabled");
+//    Debug.Log(_bullet.transform.childCount + "Child Count");
+//    for(int i=0; i < _bullet.transform.childCount; i++)
+//    {
+//        _bullet.transform.GetChild(i).gameObject.SetActive(true);
+//        _bullet.transform.GetChild(i).parent = null;
+
+//        Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
+//    }
+//    /*  _bullet.transform.GetChild(0).gameObject.SetActive(true);
+//      _bullet.transform.GetChild(1).gameObject.SetActive(true);
+//      _bullet.transform.GetChild(2).gameObject.SetActive(true);
+//      _bullet.transform.GetChild(3).gameObject.SetActive(true);
+//      _bullet.transform.GetChild(0).parent = null;
+//      _bullet.transform.GetChild(1).parent = null;
+//      _bullet.transform.GetChild(2).parent = null;
+//      _bullet.transform.GetChild(3).parent = null;
+//    */
+//}
+//Camera.main.transform.parent = null;
+
+//_bullet.SetActive(false);

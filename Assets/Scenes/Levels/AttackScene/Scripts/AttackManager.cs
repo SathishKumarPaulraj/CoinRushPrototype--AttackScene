@@ -32,6 +32,7 @@ public class AttackManager : MonoBehaviour
     public float HeightAdjustment = 100;
     public Sprite _TargetSprite;
     public Sprite _MultiplierSprite;
+    public GameObject shieldPref;
 
     private Camera cam;
     private int cachedTargetPoint = -1;
@@ -114,9 +115,11 @@ public class AttackManager : MonoBehaviour
             {
                 AssignTarget(mGameManager._BuildingDetails[int.Parse(go.name)].transform);
                 if (mGameManager._BuildingShield[int.Parse(go.name)] == true)
-                    _Shield = true;
+                    _Shield = mGameManager._BuildingShield[int.Parse(go.name)];
+                Debug.LogError(mGameManager._BuildingShield[int.Parse(go.name)] + " shield Yes or No Once selected ");
                 TargetObjectIndex = int.Parse(go.name);
                 Debug.Log(TargetObjectIndex + "TargetObjectIndex");
+                Debug.Log("Target position Details  " + mGameManager._BuildingDetails[int.Parse(go.name)].transform.position);
 
             });
 
@@ -135,7 +138,7 @@ public class AttackManager : MonoBehaviour
             go.transform.position = screenPos;
         }
     }
-  
+
 
     /// <summary>
     /// This Helps in Instantiating the 2X Multiplier 
@@ -256,7 +259,7 @@ public class AttackManager : MonoBehaviour
         StartCoroutine(Transition());
         Camera.main.transform.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
-       //  ScoreCalculation(_TargetTransform);
+        //  ScoreCalculation(_TargetTransform);
         StartCoroutine(ScoreCalculation(_TargetTransform));
         if (_Shield == true)
         {
@@ -315,7 +318,7 @@ public class AttackManager : MonoBehaviour
             t += Time.deltaTime * (Time.timeScale / transitionDuration);
             Debug.Log("Inside Coroutine");
 
-            Camera.main.transform.position = Vector3.Lerp(startingPos, endPos, t*3 );
+            Camera.main.transform.position = Vector3.Lerp(startingPos, endPos, t * 3);
             //GameObject temp = new GameObject();
             //temp.transform.LookAt(_TargetTransform);
             //Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, temp.transform.rotation, t*3);

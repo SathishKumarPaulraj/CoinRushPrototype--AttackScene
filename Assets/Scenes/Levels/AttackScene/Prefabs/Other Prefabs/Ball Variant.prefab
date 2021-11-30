@@ -19513,6 +19513,7 @@ MonoBehaviour:
   _attackManager: {fileID: 0}
   hight: 190
   gravity: -150
+  BallFlow: 1
 --- !u!1001 &4130838614470925623
 PrefabInstance:
   m_ObjectHideFlags: 0
