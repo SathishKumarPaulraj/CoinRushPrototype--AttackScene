@@ -20,6 +20,7 @@ public class BallLaunch : MonoBehaviour
     private Vector3 Velocity; //Motion Velocity
     private float time = 0; // Motion time
     public bool BallFlow = true;
+    public bool BallReverse = false;
 
 
     private void Start()
@@ -45,6 +46,10 @@ public class BallLaunch : MonoBehaviour
             // Computational steering
             transform.LookAt(PhysicsUtil.GetParabolaNextPosition(position, Velocity, gravity, deltaTime));
         }
+        if (BallReverse == true)
+        {
+            this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime);
+        }
         // Simply simulate collision detection
         // if (position.y <= dest.y) enabled = false;
     }
@@ -64,10 +69,18 @@ public class BallLaunch : MonoBehaviour
                 Debug.LogError(col.transform.position + "ball Last Position");
                 Debug.LogError(col.transform.localPosition + "ball Last Position");
                 
-               // this.gameObject.transform.position += Vector3.back;
-                // this.gameObject.GetComponent<Rigidbody>().useGravity = false;
                 Camera.main.transform.parent = null;
-                this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+               // this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+              //  this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                Debug.LogError(col.transform.position + "ball Last Position");
+                Debug.Log(this.gameObject.transform.position + "  Ball Last hit position");
+                Debug.Log(Camera.main.transform.position + " Camera last position");
+
+                //this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                //this.gameObject.transform.position -= new Vector3(0f, 0f, 10f);
+                BallReverse = true;
+              //  this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime);
 
                 Debug.Log("SHIELD PROTECTED");
             }

@@ -260,7 +260,7 @@ public class AttackManager : MonoBehaviour
         Camera.main.transform.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
         //  ScoreCalculation(_TargetTransform);
-        StartCoroutine(ScoreCalculation(_TargetTransform));
+     //   StartCoroutine(ScoreCalculation(_TargetTransform));
         if (_Shield == true)
         {
             Debug.Log("shield Activated");
@@ -291,7 +291,7 @@ public class AttackManager : MonoBehaviour
 
         yield return new WaitForSeconds(7);
         _ScorePanel.SetActive(true);
-        //_ScoreTextThree.transform.parent.gameObject.SetActive(true);
+       _ScoreTextThree.transform.parent.gameObject.SetActive(true);
         //Debug.Log("I am Here");
 
     }
