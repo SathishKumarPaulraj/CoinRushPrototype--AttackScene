@@ -260,7 +260,7 @@ public class AttackManager : MonoBehaviour
         Camera.main.transform.rotation = CameraAttackRotation;
         Invoke("CannonActivation", 0f);
         //  ScoreCalculation(_TargetTransform);
-     //   StartCoroutine(ScoreCalculation(_TargetTransform));
+        StartCoroutine(ScoreCalculation(_TargetTransform));
         if (_Shield == true)
         {
             Debug.Log("shield Activated");

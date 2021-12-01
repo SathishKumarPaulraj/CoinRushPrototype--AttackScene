@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Parabolic Missile
@@ -21,11 +22,19 @@ public class BallLaunch : MonoBehaviour
     private float time = 0; // Motion time
     public bool BallFlow = true;
     public bool BallReverse = false;
+    public GameObject CrackCanvas;
+    private float ShieldCameraDistance;
+    // public Vector3 offset = new Vector3 (.4f,34.4f,66.9f);
 
+    public void Awake()
+    {
+        
+    }
 
     private void Start()
     {
         _attackManager = GameObject.Find("AttackManager").GetComponent<AttackManager>();
+        CrackCanvas = GameObject.Find("CrackCanvas");
         dest = target.position;
         position = transform.position;
         Velocity = PhysicsUtil.GetParabolaInitVelocity(position, dest, gravity, hight, 0);
@@ -48,8 +57,20 @@ public class BallLaunch : MonoBehaviour
         }
         if (BallReverse == true)
         {
-            this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime);
+            this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime * 5);
+            //  ShieldCameraDistance = Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
+            //Debug.Log(ShieldCameraDistance + "  Shield Camera Distance");
+
+            if (Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position) < (ShieldCameraDistance * .14))
+            {
+                BallReverse = false;
+                CrackCanvas.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                Debug.Log(CrackCanvas);
+                Debug.Log(CrackCanvas.gameObject.transform.GetChild(0).gameObject + "child Panel name");
+                Debug.LogError("Ball Reverse Stopped");
+            }
         }
+
         // Simply simulate collision detection
         // if (position.y <= dest.y) enabled = false;
     }
@@ -77,10 +98,15 @@ public class BallLaunch : MonoBehaviour
                 Debug.Log(this.gameObject.transform.position + "  Ball Last hit position");
                 Debug.Log(Camera.main.transform.position + " Camera last position");
 
-                //this.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                //this.gameObject.transform.position -= new Vector3(0f, 0f, 10f);
+
+                //BallReverse = true;
+                //Invoke("BallReturnDelay", .5f);
                 BallReverse = true;
-              //  this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime);
+                ShieldCameraDistance = Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
+                Debug.Log(ShieldCameraDistance + "  Shield Camera Distance");
+                Debug.Log(ShieldCameraDistance / 2 + " Shield Camera Halfway Distance");
+                Debug.Log(ShieldCameraDistance / 3 + " Shield Camera Quaterway Distance");
+                //  this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime);
 
                 Debug.Log("SHIELD PROTECTED");
             }
@@ -96,15 +122,6 @@ public class BallLaunch : MonoBehaviour
 
                 Debug.Log(_bullet.transform.GetChild(i).gameObject.name);
             }
-            /*  _bullet.transform.GetChild(0).gameObject.SetActive(true);
-              _bullet.transform.GetChild(1).gameObject.SetActive(true);
-              _bullet.transform.GetChild(2).gameObject.SetActive(true);
-              _bullet.transform.GetChild(3).gameObject.SetActive(true);
-              _bullet.transform.GetChild(0).parent = null;
-              _bullet.transform.GetChild(1).parent = null;
-              _bullet.transform.GetChild(2).parent = null;
-              _bullet.transform.GetChild(3).parent = null;
-            */
             Camera.main.transform.parent = null;
 
             _bullet.SetActive(false);
@@ -112,6 +129,11 @@ public class BallLaunch : MonoBehaviour
         // Camera.main.transform.parent = null;
 
         // _bullet.SetActive(false);
+    }
+
+    public void BallReturnDelay()
+    {
+        BallReverse = true;
     }
 
 }
