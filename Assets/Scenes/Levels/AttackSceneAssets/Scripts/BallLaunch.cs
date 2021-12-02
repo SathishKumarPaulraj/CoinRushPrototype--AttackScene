@@ -57,17 +57,19 @@ public class BallLaunch : MonoBehaviour
         }
         if (BallReverse == true)
         {
+            Vector3 Newdist = Camera.main.ScreenToWorldPoint(CrackCanvas.transform.GetChild(0).gameObject.transform.position);
+            Debug.Log(Newdist + "Panel Position");
             this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime * 5);
-            //  ShieldCameraDistance = Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
-            //Debug.Log(ShieldCameraDistance + "  Shield Camera Distance");
 
             if (Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position) < (ShieldCameraDistance * .14))
             {
                 BallReverse = false;
+ 
                 CrackCanvas.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 Debug.Log(CrackCanvas);
                 Debug.Log(CrackCanvas.gameObject.transform.GetChild(0).gameObject + "child Panel name");
                 Debug.LogError("Ball Reverse Stopped");
+                Debug.Log(Camera.main.ScreenToWorldPoint (CrackCanvas.transform.position) + "  Camera Panel ScreenView");
             }
         }
 

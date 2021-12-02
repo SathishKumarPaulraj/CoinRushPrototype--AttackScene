@@ -53,7 +53,8 @@ public class AttackManager : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-
+       // Application.targetFrameRate = 60;
+        Debug.Log(Application.targetFrameRate + "Target Fram Rate ");
         TargetInstantiation();
         //MultiplierInstantiation();
         InvokeRepeating("DoMultiplierSwitching", 0f, _MultiplierSwitchTime);
@@ -291,7 +292,7 @@ public class AttackManager : MonoBehaviour
 
         yield return new WaitForSeconds(7);
         _ScorePanel.SetActive(true);
-       _ScoreTextThree.transform.parent.gameObject.SetActive(true);
+       //_ScoreTextThree.transform.parent.gameObject.SetActive(true);
         //Debug.Log("I am Here");
 
     }
