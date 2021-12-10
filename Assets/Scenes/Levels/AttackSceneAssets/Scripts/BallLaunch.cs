@@ -24,7 +24,6 @@ public class BallLaunch : MonoBehaviour
     public bool BallReverse = false;
     public GameObject CrackCanvas;
     private float ShieldCameraDistance;
-    // public Vector3 offset = new Vector3 (.4f,34.4f,66.9f);
 
     public void Awake()
     {

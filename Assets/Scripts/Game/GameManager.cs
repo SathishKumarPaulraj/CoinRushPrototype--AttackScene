@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public enum BuildingTypes
 {
@@ -31,12 +33,14 @@ public class GameManager : MonoBehaviour
     public List<bool> _BuildingShield;
     public List<Vector3> _TargetMarkPost;
     public List<Quaternion> _TargetMarkRotation;
+    public GameObject CoinsUI;
 
     public int _maxEnergy = 50;
     private bool mIsFull = true;
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         if (Instance == null)
         {
             Instance = this;
@@ -48,11 +52,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
         StartCoroutine(AutomaticEnergyRefiller());
     }
 
     private void Update()
     {
+
+        CoinsCollection();
+
         if (_energy == _maxEnergy)
         {
             mIsFull = false;
@@ -81,6 +89,11 @@ public class GameManager : MonoBehaviour
     {
         float seconds = inMinutes * 60;
         return seconds;
+    }
+
+    public void CoinsCollection()
+    {
+        CoinsUI.GetComponent<TextMeshPro>().text = _coins.ToString();
     }
 
 }
