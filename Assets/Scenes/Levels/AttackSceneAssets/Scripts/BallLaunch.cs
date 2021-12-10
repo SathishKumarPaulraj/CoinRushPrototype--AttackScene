@@ -60,11 +60,11 @@ public class BallLaunch : MonoBehaviour
             Debug.Log(Newdist + "Panel Position");
             this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, Camera.main.transform.position, Time.deltaTime * 5);
 
-            if (Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position) < (ShieldCameraDistance * .14))
+            if (Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position) < (ShieldCameraDistance * .25)) //.14))
             {
                 BallReverse = false;
- 
-                CrackCanvas.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+              //  CrackCanvas.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 Debug.Log(CrackCanvas);
                 Debug.Log(CrackCanvas.gameObject.transform.GetChild(0).gameObject + "child Panel name");
                 Debug.LogError("Ball Reverse Stopped");
@@ -116,8 +116,9 @@ public class BallLaunch : MonoBehaviour
         {
             Debug.Log("Shield Disabled");
             Debug.Log(_bullet.transform.childCount + "Child Count");
-            for (int i = 0; i < _bullet.transform.childCount; i++)
+            for (int i = 0; i < _bullet.transform.childCount-1; i++)
             {
+                Debug.LogError(_bullet.transform.childCount);
                 _bullet.transform.GetChild(i).gameObject.SetActive(true);
                 _bullet.transform.GetChild(i).parent = null;
 
