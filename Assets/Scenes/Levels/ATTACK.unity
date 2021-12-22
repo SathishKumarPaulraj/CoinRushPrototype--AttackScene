@@ -3544,6 +3544,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370657084}
   m_Mesh: {fileID: 5283197924642485434, guid: 89d62f5e3465f1f4491d868dc7f4c0e6, type: 3}
+--- !u!1 &385032547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385032548}
+  - component: {fileID: 385032549}
+  - component: {fileID: 385032550}
+  m_Layer: 5
+  m_Name: ScoreTextTwo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &385032548
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385032547}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1131017088}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 41.6702, y: 307}
+  m_SizeDelta: {x: 413.3403, y: 60.4697}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &385032549
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385032547}
+  m_CullTransparentMesh: 1
+--- !u!114 &385032550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385032547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 1
+    m_BestFit: 1
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
 --- !u!1 &388169117
 GameObject:
   m_ObjectHideFlags: 0
@@ -4653,7 +4732,7 @@ MonoBehaviour:
   _MultiplierSwitchTime: 1
   _ScorePanel: {fileID: 1131017087}
   _ScoreTextOne: {fileID: 268350994}
-  _ScoreTextTwo: {fileID: 0}
+  _ScoreTextTwo: {fileID: 385032550}
   _ScoreTextThree: {fileID: 0}
   _bulletPre: {fileID: 0}
   _Sprite1: {fileID: 21300000, guid: 805fc08f9af84a84785d55049243d698, type: 3}
@@ -4673,6 +4752,7 @@ MonoBehaviour:
   _TargetSprite: {fileID: 21300000, guid: 1e1d11452f855a443a3ddf4875d67cd5, type: 3}
   _MultiplierSprite: {fileID: 21300000, guid: bb829f1e9bae68e4eb23855d5ad8513d, type: 3}
   shieldPref: {fileID: 0}
+  _multiplierSelected: 0
 --- !u!4 &503097514
 Transform:
   m_ObjectHideFlags: 0
@@ -9203,6 +9283,7 @@ RectTransform:
   m_Children:
   - {fileID: 295865085}
   - {fileID: 268350993}
+  - {fileID: 385032548}
   m_Father: {fileID: 412256754}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10091,11 +10172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4258279162477888205, guid: 14e5266211c2a4e4087a51998c71595e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -22.00003
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: 4258279162477888205, guid: 14e5266211c2a4e4087a51998c71595e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -127.99982
+      value: -127.999756
       objectReference: {fileID: 0}
     - target: {fileID: 4258279162477888205, guid: 14e5266211c2a4e4087a51998c71595e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11033,7 +11114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1412255681
 MonoBehaviour:
   m_ObjectHideFlags: 0

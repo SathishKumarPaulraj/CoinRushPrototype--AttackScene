@@ -33,6 +33,7 @@ public class AttackManager : MonoBehaviour
     public Sprite _TargetSprite;
     public Sprite _MultiplierSprite;
     public GameObject shieldPref;
+    public bool _multiplierSelected = false;
 
     private Camera cam;
     private int cachedTargetPoint = -1;
@@ -114,6 +115,7 @@ public class AttackManager : MonoBehaviour
             //this.gameObject.transform.LookAt(Camera.main.transform);
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
+                Debug.Log(go.GetComponent<Image>().sprite.name + "Selected Sprite Name" );
                 AssignTarget(mGameManager._BuildingDetails[int.Parse(go.name)].transform);
                 if (mGameManager._BuildingShield[int.Parse(go.name)] == true)
                     _Shield = mGameManager._BuildingShield[int.Parse(go.name)];
@@ -121,7 +123,15 @@ public class AttackManager : MonoBehaviour
                 TargetObjectIndex = int.Parse(go.name);
                 Debug.Log(TargetObjectIndex + "TargetObjectIndex");
                 Debug.Log("Target position Details  " + mGameManager._BuildingDetails[int.Parse(go.name)].transform.position);
+              if (_multiplierGameObject.name == go.name )
+                {
+                    Debug.LogError("Multiplier selected");
+                    Debug.Log(_multiplierGameObject.name);
+                    Debug.Log(go.name);
+                    _multiplierSelected = true;
 
+                }
+                
             });
 
         }
@@ -288,6 +298,13 @@ public class AttackManager : MonoBehaviour
           _ScoreTextThree.text = "Your Score Are - " + RewardValue;  */
 
         int RewardValue = mGameManager._BuildingCost[TargetObjectIndex];
+
+        if(_multiplierSelected == true)
+        {
+            _ScoreTextTwo.text = "Multiplier (2x) - " + RewardValue + "*2";
+            RewardValue = RewardValue * 2;
+        }
+       // Debug.Log(TargetObjectIndex.)
         mGameManager._coins = mGameManager._coins + mGameManager._BuildingCost[TargetObjectIndex];
         Debug.LogError(mGameManager._coins + " Game Manager Coins ");
         _ScoreTextOne.text = "Building Cost - " + RewardValue;

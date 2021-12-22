@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public List<bool> _BuildingShield;
     public List<Vector3> _TargetMarkPost;
     public List<Quaternion> _TargetMarkRotation;
-    public GameObject CoinsUI;
+    //public GameObject CoinsUI;
 
     public int _maxEnergy = 50;
     private bool mIsFull = true;
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
-        CoinsCollection();
+        //CoinsCollection();
 
         if (_energy == _maxEnergy)
         {
@@ -91,9 +91,9 @@ public class GameManager : MonoBehaviour
         return seconds;
     }
 
-    public void CoinsCollection()
-    {
-        CoinsUI.GetComponent<TextMeshPro>().text = _coins.ToString();
-    }
+    //public void CoinsCollection()
+    //{
+    //    CoinsUI.GetComponent<TextMeshPro>().text = _coins.ToString();
+    //}
 
 }
